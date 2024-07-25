@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: tech_postgres
+    hostname: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    command: ['postgres', '-c', 'wal_level=logical']
+    healthcheck:
+      test: ['CMD', 'psql', '-U', 'postgres', '-c', 'SELECT 1']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres:/data
+
+volumes:
+  postgres:
