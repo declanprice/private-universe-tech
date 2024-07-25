@@ -29,7 +29,11 @@ export const FormTextInput = (props: FormTextInputProps) => {
   });
 
   return (
-    <FormControl isInvalid={fieldState.invalid} isDisabled={field.disabled}>
+    <FormControl
+      hidden={props.hidden}
+      isInvalid={fieldState.invalid}
+      isDisabled={field.disabled}
+    >
       {props.label && <FormLabel>{props.label}</FormLabel>}
 
       <InputGroup>

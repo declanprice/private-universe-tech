@@ -17,7 +17,6 @@ export type Profile = {
 };
 
 type ProfileSetupModalProps = {
-  profile: Profile;
   onSubmit: (profile: Profile) => void;
 };
 
@@ -28,37 +27,37 @@ enum ProfileSetupSteps {
 }
 
 export const ProfileSetupModal = (props: ProfileSetupModalProps) => {
-  const { profile, onSubmit } = props;
+  const { onSubmit } = props;
 
   const [currentStep, setCurrentStep] = useState<number>(
     ProfileSetupSteps.USERNAME,
   );
 
   const form = useForm<Profile>({
-    defaultValues: {
-      username: profile.username || "",
-      jobTitle: profile.jobTitle || "",
+    values: {
+      username: "",
+      jobTitle: "",
     },
   });
 
   const renderBody = () => {
-    if (currentStep === ProfileSetupSteps.USERNAME) {
+    if (currentStep < ProfileSetupSteps.END) {
       return (
-        <FormTextInput
-          label={"Choose a username"}
-          name={"username"}
-          control={form.control}
-        />
-      );
-    }
+        <>
+          <FormTextInput
+            hidden={currentStep !== ProfileSetupSteps.USERNAME}
+            label={"Choose a username"}
+            name={"username"}
+            control={form.control}
+          />
 
-    if (currentStep === ProfileSetupSteps.JOB_TITLE) {
-      return (
-        <FormTextInput
-          label={"What is your job title?"}
-          name={"jobTitle"}
-          control={form.control}
-        />
+          <FormTextInput
+            hidden={currentStep !== ProfileSetupSteps.JOB_TITLE}
+            label={"What is your job title?"}
+            name={"jobTitle"}
+            control={form.control}
+          />
+        </>
       );
     }
 
@@ -75,7 +74,9 @@ export const ProfileSetupModal = (props: ProfileSetupModalProps) => {
     if (currentStep > ProfileSetupSteps.USERNAME) {
       return (
         <Button
-          onClick={() => {
+          type={"button"}
+          onClick={(e) => {
+            e.preventDefault();
             setCurrentStep(currentStep - 1);
           }}
         >
@@ -91,7 +92,9 @@ export const ProfileSetupModal = (props: ProfileSetupModalProps) => {
     if (currentStep < ProfileSetupSteps.END) {
       return (
         <Button
-          onClick={() => {
+          type={"button"}
+          onClick={(e) => {
+            e.preventDefault();
             setCurrentStep(currentStep + 1);
           }}
         >
@@ -100,19 +103,21 @@ export const ProfileSetupModal = (props: ProfileSetupModalProps) => {
       );
     }
 
-    return <Button type={"submit"}>Save Profile</Button>;
+    return (
+      <Button type={"submit"} isLoading={form.formState.isSubmitting}>
+        Save Profile
+      </Button>
+    );
   };
 
   return (
     <Modal isOpen={true} onClose={() => {}} size="lg">
       <ModalOverlay />
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <ModalContent>
-          <ModalHeader title="Welcome">
-            Lets get your profile setup.
-          </ModalHeader>
+      <ModalContent>
+        <ModalHeader title="Welcome">Lets get your profile setup.</ModalHeader>
 
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <ModalBody>{renderBody()}</ModalBody>
 
           <ModalFooter>
@@ -121,8 +126,8 @@ export const ProfileSetupModal = (props: ProfileSetupModalProps) => {
               {renderNextButton()}
             </ButtonGroup>
           </ModalFooter>
-        </ModalContent>
-      </form>
+        </form>
+      </ModalContent>
     </Modal>
   );
 };

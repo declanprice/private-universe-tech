@@ -80,8 +80,8 @@ model Authenticator {
 }
 
 model UserProfile {
-  userId   String @id
-  user     User   @relation(fields: [userId], references: [id])
+  email    String @id
+  user     User   @relation(fields: [email], references: [id])
   username String
   jobTitle String
 }

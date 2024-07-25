@@ -38,13 +38,14 @@ export const SignInForm = () => {
           name={"email"}
           control={form.control}
         />
-        {session.status};
+
         <FormTextInput
           isRequired={true}
           placeholder={"Password"}
           name={"password"}
           control={form.control}
         />
+
         <Button
           ml={"auto"}
           type={"submit"}
