@@ -12,7 +12,10 @@ export class AppStack extends Stack {
     constructor(scope: Construct, id: string, props: AppStackProps) {
         super(scope, id, {
             stackName: 'PrivateUniverseStack',
-            ...props
+            env: {
+                region: 'ap-southeast-2',
+                account: '518424097895'
+            }
         });
 
         new ComputeResources(this, 'ComputeResources', props);

@@ -1,8 +1,7 @@
-import {Stack} from "aws-cdk-lib";
+import {Stack, StackProps} from "aws-cdk-lib";
 import {Construct} from "constructs";
 import {
     AccountPrincipal,
-    AnyPrincipal,
     Effect,
     ManagedPolicy,
     PolicyDocument,
@@ -17,20 +16,20 @@ import {
     ShellStep,
     Step
 } from "aws-cdk-lib/pipelines";
-import {AppStage} from "../app.stage";
-import {Environment} from "../environment";
+import {AppStage} from "./app.stage";
+import {Environment} from "./environment";
 import {Artifact, IStage} from "aws-cdk-lib/aws-codepipeline";
 import {CodeDeployServerDeployAction} from "aws-cdk-lib/aws-codepipeline-actions";
 import {ServerApplication, ServerDeploymentGroup} from "aws-cdk-lib/aws-codedeploy";
 
 export class AppPipeline extends Stack {
-    constructor(scope: Construct, id: string, props: any) {
-        super(scope, id);
+    constructor(scope: Construct, id: string, props: StackProps) {
+        super(scope, id, props);
 
-        const connectionArn = this.node.tryGetContext('connectionArn')
+        const githubConnectionArn = this.node.tryGetContext('githubConnectionArn')
 
         const shell = new ShellStep('ShellStep', {
-            input:  CodePipelineSource.connection('declanprice/private-universe-tech', 'main', { connectionArn }),
+            input:  CodePipelineSource.connection('declanprice/private-universe-tech', 'main', { connectionArn: githubConnectionArn }),
             installCommands: ['npm install', 'npm run build'],
             commands: ['npm run cdk synth', 'mv node_modules src'],
         });
@@ -57,15 +56,19 @@ export class AppPipeline extends Stack {
             }),
         });
 
-        const context = this.node.tryGetContext('environments');
+        const environments = this.node.tryGetContext('environments');
 
-        const environment = context['dev'] as Environment;
+        // if you have a multi environment setup, simply add a new key to cdk.json 'environments' object.
 
-        const stage = pipeline.addStage(new AppStage(this, 'AppStage', {
-            environment
-        }));
+        for (const name in environments) {
+            const environment = environments[name] as Environment;
 
-        stage.addPost(new CodeDeployStep(this));
+            const stage = pipeline.addStage(new AppStage(this, 'AppStage', {
+                environment,
+            }));
+
+            stage.addPost(new CodeDeployStep(this));
+        }
     }
 }
 
@@ -102,4 +105,3 @@ class CodeDeployStep extends Step implements ICodePipelineActionFactory {
         return { runOrdersConsumed: 1 };
     }
 }
-
