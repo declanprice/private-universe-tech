@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Flex, useToast } from "@chakra-ui/react";
-import { FormTextInput } from "@/components/form/FormTextInput";
+import { FormTextInput } from "@/shared/components/form/FormTextInput";
 import { useForm } from "react-hook-form";
 import { auth } from "@/auth";
 import { red } from "next/dist/lib/picocolors";

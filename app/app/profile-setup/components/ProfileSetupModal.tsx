@@ -8,13 +8,9 @@ import {
 } from "@chakra-ui/modal";
 import { Button, ButtonGroup, Stack, Text } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { FormTextInput } from "@/components/form/FormTextInput";
+import { FormTextInput } from "@/shared/components/form/FormTextInput";
 import { useState } from "react";
-
-export type Profile = {
-  username?: string;
-  jobTitle?: string;
-};
+import { Profile } from "@/shared/types/profile";
 
 type ProfileSetupModalProps = {
   onSubmit: (profile: Profile) => void;
@@ -34,7 +30,7 @@ export const ProfileSetupModal = (props: ProfileSetupModalProps) => {
   );
 
   const form = useForm<Profile>({
-    values: {
+    defaultValues: {
       username: "",
       jobTitle: "",
     },

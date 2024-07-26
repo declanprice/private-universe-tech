@@ -68,8 +68,16 @@
     "@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm": true,
     "@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault": false,
     "@aws-cdk/aws-stepfunctions-tasks:ecsReduceRunTaskPermissions": true,
-    "environment": {
-      "databaseParam": "/private-universe-tech/database/connection-string"
+    "environments": {
+      "build": {
+        "githubConnectionArn": "arn:aws:codestar-connections:eu-west-1:518424097895:connection/3df6dfff-abc3-4b5a-a19c-148a98aea66c"
+      },
+      "dev": {
+        "databaseParamName": "/private-universe-tech/database/connection-string"
+      },
+      "prod": {
+        "databaseParamName": "prod param here"
+      }
     }
   }
 }

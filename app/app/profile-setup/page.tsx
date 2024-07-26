@@ -1,8 +1,9 @@
 "use client";
 
-import { Profile, ProfileSetupModal } from "./components/ProfileSetupModal";
+import { ProfileSetupModal } from "./components/ProfileSetupModal";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { Profile } from "@/shared/types/profile";
 
 export default function ProfileSetupPage() {
   const toast = useToast();
