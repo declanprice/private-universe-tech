@@ -11,7 +11,7 @@ export default function DogsPage() {
   );
 
   if (error) {
-    return <Text>Sorry, we couldn't load the dog breeds. :(</Text>;
+    return <Text>{`Sorry, we couldn't load the dog breeds. :(`}</Text>;
   }
 
   if (!data || isLoading) {
@@ -24,7 +24,7 @@ export default function DogsPage() {
 
       <Wrap spacing={4}>
         {data.map((breed) => (
-          <DogBreedListItem breed={breed} />
+          <DogBreedListItem key={breed} breed={breed} />
         ))}
       </Wrap>
     </Flex>

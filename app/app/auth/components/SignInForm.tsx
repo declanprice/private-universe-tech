@@ -39,8 +39,6 @@ export const SignInForm = () => {
     }
   };
 
-  console.log(session.data);
-
   return (
     <form onSubmit={form.handleSubmit(onSignIn)}>
       <Flex direction={"column"} width={"400px"} gap={2}>
@@ -66,7 +64,7 @@ export const SignInForm = () => {
           Sign In
         </Button>
 
-        <Link href={"/auth/sign-up"}>I don't have an account yet.</Link>
+        <Link href={"/auth/sign-up"}>{`I don't have an account yet.`}</Link>
       </Flex>
     </form>
   );

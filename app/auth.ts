@@ -7,6 +7,7 @@ import profileService from "@/services/profile.service";
 
 export const { handlers, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  trustHost: true,
   session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({

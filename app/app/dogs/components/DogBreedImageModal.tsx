@@ -17,27 +17,27 @@ type DogBreedImageModalProps = {
 export const DogBreedImageModal = (props: DogBreedImageModalProps) => {
   const { isOpen, onClose, breed } = props;
 
-  if (!isOpen) return null;
-
   const { data, isLoading, error } = useSWR<string>(
     `/api/dogs/${breed}`,
     (url: string) => fetch(url).then((r) => r.json()),
   );
 
   const renderImage = () => {
-    if (error) return <Text>Sorry, we couldn't load the image :( </Text>;
+    if (error) return <Text>{`Sorry, we couldn't load the image. :(`}</Text>;
 
     if (!data || isLoading) return <Spinner />;
 
-    return <Image src={data} />;
+    return <Image src={data} alt={""} />;
   };
+
+  if (!isOpen) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"2xl"}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          <Text>You're looking at a very cute image of a/an {breed}</Text>
+          <Text>{`You're looking at a very cute image of a/an ${breed}`}</Text>
         </ModalHeader>
 
         <ModalBody>{renderImage()}</ModalBody>
