@@ -1,6 +1,6 @@
 import {Stack,  Tags} from "aws-cdk-lib";
 import {Construct} from "constructs";
-import {AccountPrincipal, Effect, PolicyDocument, PolicyStatement, Role} from "aws-cdk-lib/aws-iam";
+import {AccountPrincipal, Effect, ManagedPolicy, PolicyDocument, PolicyStatement, Role} from "aws-cdk-lib/aws-iam";
 import {
     Instance,
     InstanceClass,
@@ -38,7 +38,7 @@ export class ComputeResources extends Construct {
             inlinePolicies: {
                 'policy': new PolicyDocument({
                     statements: [
-                        new PolicyStatement({effect: Effect.ALLOW, resources: ['*'], actions: ['codedeploy:*', 'ssm:*']})
+                        new PolicyStatement({effect: Effect.ALLOW, resources: ['*'], actions: ['codedeploy:*']})
                     ]
                 })
             }
@@ -51,9 +51,16 @@ export class ComputeResources extends Construct {
             securityGroup: instanceSecurityGroup,
             instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MICRO),
             machineImage: MachineImage.latestAmazonLinux2023(),
+            ssmSessionPermissions: true,
             userData: UserData.forLinux({
-                shebang: ''
+                shebang: `
+                curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+                source ~/.bashrc
+                nvm install --lts
+                node -e "console.log('Running Node.js ' + process.version)"
+                `
             }),
+            associatePublicIpAddress: true
         });
 
         Tags.of(instance).add('project', 'PrivateUniverse');

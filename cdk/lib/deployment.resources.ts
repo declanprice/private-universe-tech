@@ -1,8 +1,7 @@
-import { Stack } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {InstanceTagSet, ServerApplication, ServerDeploymentGroup} from "aws-cdk-lib/aws-codedeploy";
 
-export class DeploymentResources extends Stack {
+export class DeploymentResources extends Construct {
     constructor(scope: Construct, id: string) {
         super(scope, id);
 

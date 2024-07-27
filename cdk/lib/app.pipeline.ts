@@ -30,8 +30,8 @@ export class AppPipeline extends Stack {
 
         const shell = new ShellStep('ShellStep', {
             input:  CodePipelineSource.connection('declanprice/private-universe-tech', 'main', { connectionArn: githubConnectionArn }),
-            installCommands: ['npm install', 'npm run build'],
-            commands: ['npm run cdk synth', 'mv node_modules src'],
+            installCommands: ['npm install', 'cd app', 'npm install', 'cd ..'],
+            commands: ['cd app', 'npm run cdk synth', 'mv node_modules src'],
         });
 
         shell.addOutputDirectory('src');
