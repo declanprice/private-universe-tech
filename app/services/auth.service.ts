@@ -1,6 +1,7 @@
 import { prisma } from "@/prisma";
-import { User } from "next-auth";
 import { UserAlreadyExistsError } from "./errors/UserAlreadyExistsError";
+import { UserWithProfile } from "@/shared/types/profile";
+import { User } from "next-auth";
 
 export class AuthService {
   private SECRET = process.env.NEXTAUTH_SECRET;
@@ -30,13 +31,11 @@ export class AuthService {
   async signIn(credentials: any): Promise<User> {
     console.log(credentials);
 
-    const user = await prisma.user.findUniqueOrThrow({
+    return prisma.user.findUniqueOrThrow({
       where: {
         email: credentials.email,
       },
     });
-
-    return user;
   }
 
   private encryptPassword(password: string): string {

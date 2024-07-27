@@ -111,7 +111,9 @@ export const ProfileSetupModal = (props: ProfileSetupModalProps) => {
       <ModalOverlay />
 
       <ModalContent>
-        <ModalHeader title="Welcome">Lets get your profile setup.</ModalHeader>
+        <ModalHeader title="Welcome">
+          Welcome! Lets get your profile setup.
+        </ModalHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <ModalBody>{renderBody()}</ModalBody>

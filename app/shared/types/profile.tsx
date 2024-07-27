@@ -3,3 +3,9 @@ export type Profile = {
   username: string;
   jobTitle: string;
 };
+
+export type UserWithProfile = {
+  id: string;
+  email: string;
+  profile: Profile | null;
+};

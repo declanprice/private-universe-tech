@@ -3,9 +3,8 @@
 import { Button, Flex, useToast } from "@chakra-ui/react";
 import { FormTextInput } from "@/shared/components/form/FormTextInput";
 import { useForm } from "react-hook-form";
-import { auth } from "@/auth";
-import { red } from "next/dist/lib/picocolors";
 import { useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export const SignInForm = () => {
   const toast = useToast();
@@ -20,14 +19,23 @@ export const SignInForm = () => {
   });
 
   const submitSignIn = async (data: any) => {
-    const result = await fetch("/api/auth/sign-in", {
-      method: "POST",
-      body: JSON.stringify({
+    try {
+      await signIn("credentials", {
         email: data.email,
         password: data.password,
-      }),
-    });
+        redirect: false,
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to sign in.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
+
+  console.log(session.data);
 
   return (
     <form onSubmit={form.handleSubmit(submitSignIn)}>
@@ -45,6 +53,8 @@ export const SignInForm = () => {
           name={"password"}
           control={form.control}
         />
+
+        {session.status}
 
         <Button
           ml={"auto"}
