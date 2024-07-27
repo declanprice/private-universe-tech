@@ -18,16 +18,12 @@ export const { handlers, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token }) {
-      if (token.email) {
-        const userProfile = await profileService.get(token.email);
-
-        if (userProfile) {
-          token.userProfile = userProfile;
-        }
-      }
-
-      return token;
+    async session({ session, token }) {
+      const userProfile = await profileService.get(session.user.email);
+      session.user.id = token.sub!;
+      session.user.email = token.email!;
+      (session.user as any).profile = userProfile;
+      return session;
     },
   },
 });

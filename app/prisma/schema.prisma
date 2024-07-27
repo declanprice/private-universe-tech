@@ -8,51 +8,53 @@ generator client {
 }
 
 model User {
-  id            String          @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
   hash          String?
-  email         String          @unique
-  emailVerified DateTime?
+  email         String    @unique
+  emailVerified DateTime? @map("email_verified")
   image         String?
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  userProfile UserProfile?
+  profile UserProfile?
+
+  @@map("user")
 }
 
 model Account {
   userId            String
   type              String
   provider          String
-  providerAccountId String
+  providerAccountId String   @map("provider_account_id")
   refresh_token     String?
   access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
   id_token          String?
-  session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  session_state     String?  @map("session_state")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("update_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
+  @@map("account")
 }
 
 model Session {
-  sessionToken String   @unique
+  sessionToken String   @unique @map("session_token")
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
 }
 
 model VerificationToken {
@@ -61,27 +63,15 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
-}
-
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([userId, credentialID])
+  @@map("verification_token")
 }
 
 model UserProfile {
   email    String @id
-  user     User   @relation(fields: [email], references: [id])
   username String
-  jobTitle String
+  jobTitle String @map("job_title")
+
+  user User @relation(fields: [email], references: [email])
+
+  @@map("user_profile")
 }

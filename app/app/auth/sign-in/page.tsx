@@ -5,18 +5,20 @@ import { SignInForm } from "./components/SignInForm";
 
 export default function SignInPage() {
   return (
-    <Flex
-      height={"100vh"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      direction={"column"}
-      gap={6}
-    >
-      <Heading size={"2xl"} fontWeight={"bold"}>
-        Sign In
-      </Heading>
+    <main>
+      <Flex
+        height={"100vh"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        direction={"column"}
+        gap={6}
+      >
+        <Heading size={"2xl"} fontWeight={"bold"}>
+          Sign In
+        </Heading>
 
-      <SignInForm />
-    </Flex>
+        <SignInForm />
+      </Flex>
+    </main>
   );
 }

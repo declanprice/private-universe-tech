@@ -18,14 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>
-          <SessionProvider>
-            <ChakraProvider>
-              <ColorModeScript initialColorMode="light" />
-              {children}
-            </ChakraProvider>
-          </SessionProvider>
-        </main>
+        <SessionProvider>
+          <ChakraProvider>
+            <ColorModeScript initialColorMode="light" />
+            {children}
+          </ChakraProvider>
+        </SessionProvider>
       </body>
     </html>
   );

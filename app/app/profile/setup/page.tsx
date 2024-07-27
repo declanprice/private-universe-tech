@@ -4,10 +4,14 @@ import { ProfileSetupModal } from "./components/ProfileSetupModal";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { Profile } from "@/shared/types/profile";
+import { useSession } from "next-auth/react";
 
 export default function ProfileSetupPage() {
   const toast = useToast();
   const router = useRouter();
+  const session = useSession();
+
+  console.log(session);
 
   const onProfileSubmit = async (profile: Profile) => {
     const result = await fetch("/api/profile", {
@@ -18,6 +22,10 @@ export default function ProfileSetupPage() {
     const body = await result.json();
 
     if (result.status === 200) {
+      await session.update({
+        profile: body.profile,
+      });
+
       toast({
         title: "Profile created",
         status: "success",
@@ -36,5 +44,9 @@ export default function ProfileSetupPage() {
     }
   };
 
-  return <ProfileSetupModal onSubmit={onProfileSubmit} />;
+  return (
+    <main>
+      <ProfileSetupModal onSubmit={onProfileSubmit} />;
+    </main>
+  );
 }
