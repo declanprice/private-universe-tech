@@ -1,10 +1,10 @@
 "use client";
 
-import { ProfileSetupModal } from "./components/ProfileSetupModal";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { Profile } from "@/shared/types/profile";
 import { useSession } from "next-auth/react";
+import { ProfileSetupModal } from "./components/ProfileSetupModal";
 
 export default function ProfileSetupPage() {
   const toast = useToast();
@@ -13,7 +13,7 @@ export default function ProfileSetupPage() {
 
   console.log(session);
 
-  const onProfileSubmit = async (profile: Profile) => {
+  const onCreateProfile = async (profile: Profile) => {
     const result = await fetch("/api/profile", {
       method: "POST",
       body: JSON.stringify(profile),
@@ -33,7 +33,7 @@ export default function ProfileSetupPage() {
         isClosable: true,
       });
 
-      router.push("/data");
+      router.push("/dogs");
     } else {
       toast({
         title: body.message ? body.message : "Something went wrong.",
@@ -44,9 +44,5 @@ export default function ProfileSetupPage() {
     }
   };
 
-  return (
-    <main>
-      <ProfileSetupModal onSubmit={onProfileSubmit} />;
-    </main>
-  );
+  return <ProfileSetupModal onSubmit={onCreateProfile} />;
 }

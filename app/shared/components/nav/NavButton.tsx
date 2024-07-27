@@ -33,7 +33,7 @@ export const NavButton = (props: NavButtonProps) => {
       isActive={isActive}
       rightIcon={rightIcon}
       _active={{
-        backgroundColor: "gray.100",
+        backgroundColor: "gray.200",
       }}
       gap={2}
       width={"100%"}

@@ -11,6 +11,8 @@ import { useForm } from "react-hook-form";
 import { FormTextInput } from "@/shared/components/form/FormTextInput";
 import { useState } from "react";
 import { Profile } from "@/shared/types/profile";
+import { valibotResolver } from "@hookform/resolvers/valibot";
+import { profileSchema } from "@/shared/schemas/profile.schema";
 
 type ProfileSetupModalProps = {
   onSubmit: (profile: Profile) => void;
@@ -34,6 +36,7 @@ export const ProfileSetupModal = (props: ProfileSetupModalProps) => {
       username: "",
       jobTitle: "",
     },
+    resolver: valibotResolver(profileSchema),
   });
 
   const renderBody = () => {
@@ -89,9 +92,24 @@ export const ProfileSetupModal = (props: ProfileSetupModalProps) => {
       return (
         <Button
           type={"button"}
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
-            setCurrentStep(currentStep + 1);
+
+            if (currentStep === ProfileSetupSteps.USERNAME) {
+              const valid = await form.trigger("username");
+
+              if (valid) {
+                setCurrentStep(currentStep + 1);
+              }
+            }
+
+            if (currentStep === ProfileSetupSteps.JOB_TITLE) {
+              const valid = await form.trigger("jobTitle");
+
+              if (valid) {
+                setCurrentStep(currentStep + 1);
+              }
+            }
           }}
         >
           Next

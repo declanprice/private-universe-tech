@@ -3,11 +3,11 @@ import React from "react";
 import { AppLayout } from "@/shared/components/app-layout/AppLayout";
 
 export const metadata: Metadata = {
-  title: "Private Universe Tech - Dogs",
-  description: "List of dogs",
+  title: "Private Universe Tech - Profile",
+  description: "Profile",
 };
 
-export default function DogsLayout({
+export default function ProfileLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

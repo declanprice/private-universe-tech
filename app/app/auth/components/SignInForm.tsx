@@ -3,47 +3,46 @@
 import { Button, Flex, useToast } from "@chakra-ui/react";
 import { FormTextInput } from "@/shared/components/form/FormTextInput";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { valibotResolver } from "@hookform/resolvers/valibot";
+import { signInSchema } from "@/shared/schemas/sign-in.schema";
 
-export const SignUpForm = () => {
+export const SignInForm = () => {
   const toast = useToast();
+  const session = useSession();
 
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
+    resolver: valibotResolver(signInSchema),
   });
 
-  const signUp = async (data: any) => {
-    const result = await fetch("/api/auth/sign-up", {
-      method: "POST",
-      body: JSON.stringify({
+  const onSignIn = async (data: any) => {
+    try {
+      await signIn("credentials", {
         email: data.email,
         password: data.password,
-      }),
-    });
-
-    const body = await result.json();
-
-    if (result.status === 200) {
-      toast({
-        title: "Account created",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
+        callbackUrl: "/dogs",
+        redirect: true,
       });
-    } else {
+    } catch (error) {
       toast({
-        title: body.message ? body.message : "Something went wrong.",
+        title: "Failed to sign in.",
         status: "error",
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       });
     }
   };
 
+  console.log(session.data);
+
   return (
-    <form onSubmit={form.handleSubmit(signUp)}>
+    <form onSubmit={form.handleSubmit(onSignIn)}>
       <Flex direction={"column"} width={"400px"} gap={2}>
         <FormTextInput
           isRequired={true}
@@ -64,8 +63,10 @@ export const SignUpForm = () => {
           type={"submit"}
           isLoading={form.formState.isSubmitting}
         >
-          Sign Up
+          Sign In
         </Button>
+
+        <Link href={"/auth/sign-up"}>I don't have an account yet.</Link>
       </Flex>
     </form>
   );

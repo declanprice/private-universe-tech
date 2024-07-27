@@ -1,7 +1,7 @@
 "use client";
 
 import { Flex, Heading } from "@chakra-ui/react";
-import { SignInForm } from "./components/SignInForm";
+import { SignInForm } from "../components/SignInForm";
 
 export default function SignInPage() {
   return (

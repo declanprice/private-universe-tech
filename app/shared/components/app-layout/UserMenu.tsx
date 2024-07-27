@@ -12,12 +12,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { PiSignOut } from "react-icons/pi";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { UserWithProfile } from "@/shared/types/profile";
 import { CgProfile } from "react-icons/cg";
+import { useRouter } from "next/navigation";
 
 export const UserMenu = () => {
   const session = useSession();
+  const router = useRouter();
 
   const user = session.data?.user as UserWithProfile;
 
@@ -45,7 +47,9 @@ export const UserMenu = () => {
     );
   };
 
-  const onSignOut = () => {};
+  const onSignOut = async () => {
+    await signOut({ callbackUrl: "/auth/sign-in", redirect: true });
+  };
 
   if (!user) return null;
 
@@ -53,7 +57,7 @@ export const UserMenu = () => {
     <Popover>
       <PopoverTrigger>
         <IconButton
-          aria-label={"notification"}
+          aria-label={"user-menu-button"}
           variant={"ghost"}
           icon={<Avatar size={"sm"} name={user.email} />}
         />
@@ -62,13 +66,15 @@ export const UserMenu = () => {
       <PopoverContent width={"220px"} p={2} mr={2} mt={1}>
         <Flex direction={"column"} gap={2}>
           <Text mt={2} ml={2}>
-            Declan Price
+            {user.profile.username}
           </Text>
 
           <UserMenuButton
             label={"My Profile"}
             icon={<CgProfile />}
-            onClick={onSignOut}
+            onClick={() => {
+              router.push("/profile");
+            }}
           />
 
           <Divider />

@@ -6,11 +6,31 @@ export async function POST(request: NextRequest) {
   try {
     const _auth = await auth();
     const user = _auth?.user;
-    if (!user || !user.email) {
+    if (!user?.email) {
       return Response.json({ message: "Unauthorized" }, { status: 401 });
     }
     const body = await request.json();
     const profile = await profileService.create(
+      user.email,
+      body.username,
+      body.jobTitle,
+    );
+    return Response.json({ profile });
+  } catch (error) {
+    console.log(error);
+    return Response.json({ message: "Something went wrong." }, { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const _auth = await auth();
+    const user = _auth?.user;
+    if (!user?.email) {
+      return Response.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    const body = await req.json();
+    const profile = await profileService.update(
       user.email,
       body.username,
       body.jobTitle,

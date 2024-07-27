@@ -12,11 +12,25 @@ export class ProfileService {
     username: string,
     jobTitle: string,
   ): Promise<UserProfile> {
-    console.log(email, username, jobTitle);
-
     return prisma.userProfile.create({
       data: {
         email,
+        username,
+        jobTitle,
+      },
+    });
+  }
+
+  async update(
+    email: string,
+    username: string,
+    jobTitle: string,
+  ): Promise<UserProfile> {
+    return prisma.userProfile.update({
+      where: {
+        email,
+      },
+      data: {
         username,
         jobTitle,
       },

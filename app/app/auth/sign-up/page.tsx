@@ -1,6 +1,6 @@
 import { Flex, Heading } from "@chakra-ui/react";
 
-import { SignUpForm } from "./components/SignUpForm";
+import { SignUpForm } from "../components/SignUpForm";
 
 export default function SignUpPage() {
   return (

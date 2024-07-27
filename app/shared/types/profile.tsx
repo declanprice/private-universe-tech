@@ -7,5 +7,11 @@ export type Profile = {
 export type UserWithProfile = {
   id: string;
   email: string;
-  profile: Profile | null;
+  profile: Profile;
+};
+
+export type UserWithOptionalProfile = {
+  id: string;
+  email: string;
+  profile?: Profile;
 };
