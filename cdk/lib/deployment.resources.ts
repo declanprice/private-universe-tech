@@ -29,7 +29,9 @@ export class DeploymentResources extends Construct {
           roleName: "PrivateUniverseServerDeploymentRole",
           assumedBy: new AnyPrincipal(),
           managedPolicies: [
-            ManagedPolicy.fromAwsManagedPolicyName("AWSCodeDeployRole"),
+            ManagedPolicy.fromAwsManagedPolicyName(
+              "service-role/AWSCodeDeployRole",
+            ),
           ],
         }),
       },
