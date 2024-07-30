@@ -4,6 +4,7 @@ import {
   ServerApplication,
   ServerDeploymentGroup,
 } from "aws-cdk-lib/aws-codedeploy";
+import { AnyPrincipal, ManagedPolicy, Role } from "aws-cdk-lib/aws-iam";
 
 export class DeploymentResources extends Construct {
   constructor(scope: Construct, id: string) {
@@ -24,6 +25,13 @@ export class DeploymentResources extends Construct {
         application: application,
         deploymentGroupName: "PrivateUniverseServerDeploymentGroup",
         ec2InstanceTags: new InstanceTagSet({ project: ["PrivateUniverse"] }),
+        role: new Role(this, "PrivateUniverseServerDeploymentRole", {
+          roleName: "PrivateUniverseServerDeploymentRole",
+          assumedBy: new AnyPrincipal(),
+          managedPolicies: [
+            ManagedPolicy.fromAwsManagedPolicyName("AWSCodeDeployRole"),
+          ],
+        }),
       },
     );
   }
