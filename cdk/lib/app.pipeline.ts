@@ -1,14 +1,6 @@
 import { Stack, StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
-import {
-  AccountPrincipal,
-  AnyPrincipal,
-  Effect,
-  ManagedPolicy,
-  PolicyDocument,
-  PolicyStatement,
-  Role,
-} from "aws-cdk-lib/aws-iam";
+import { AccountPrincipal, ManagedPolicy, Role } from "aws-cdk-lib/aws-iam";
 import {
   CodePipeline,
   CodePipelineActionFactoryResult,
@@ -39,8 +31,21 @@ export class AppPipeline extends Stack {
         "main",
         { connectionArn: githubConnectionArn },
       ),
-      installCommands: ["npm install", "cd app", "npm install", "cd .."],
-      commands: ["cd app", "npm run build", "cd ..", "npm run cdk synth"],
+      installCommands: [
+        "cd cdk",
+        "npm install",
+        "cd ..",
+        "cd app",
+        "npm install",
+        "cd ..",
+      ],
+      commands: [
+        "cd cdk",
+        "npm run cdk synth -- --output ../cdk.out",
+        "cd ..",
+        "cd app",
+        "npm run build",
+      ],
     });
 
     shell.addOutputDirectory("../app");
