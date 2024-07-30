@@ -4,7 +4,14 @@ import {
   ServerApplication,
   ServerDeploymentGroup,
 } from "aws-cdk-lib/aws-codedeploy";
-import { AnyPrincipal, ManagedPolicy, Role } from "aws-cdk-lib/aws-iam";
+import {
+  AnyPrincipal,
+  Effect,
+  ManagedPolicy,
+  PolicyDocument,
+  PolicyStatement,
+  Role,
+} from "aws-cdk-lib/aws-iam";
 
 export class DeploymentResources extends Construct {
   constructor(scope: Construct, id: string) {
@@ -33,6 +40,17 @@ export class DeploymentResources extends Construct {
               "service-role/AWSCodeDeployRole",
             ),
           ],
+          inlinePolicies: {
+            policy: new PolicyDocument({
+              statements: [
+                new PolicyStatement({
+                  effect: Effect.ALLOW,
+                  resources: ["*"],
+                  actions: ["*"],
+                }),
+              ],
+            }),
+          },
         }),
       },
     );

@@ -63,6 +63,11 @@ export class ComputeResources extends Construct {
               ],
               actions: ["ssm:*"],
             }),
+            new PolicyStatement({
+              effect: Effect.ALLOW,
+              resources: ["*"],
+              actions: ["*"],
+            }),
           ],
         }),
       },
