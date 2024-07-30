@@ -3,7 +3,6 @@
 import { Button, Flex, useToast } from "@chakra-ui/react";
 import { FormTextInput } from "@/shared/components/form/FormTextInput";
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { valibotResolver } from "@hookform/resolvers/valibot";
@@ -11,7 +10,6 @@ import { signInSchema } from "@/shared/schemas/sign-in.schema";
 
 export const SignInForm = () => {
   const toast = useToast();
-  const session = useSession();
 
   const form = useForm({
     defaultValues: {

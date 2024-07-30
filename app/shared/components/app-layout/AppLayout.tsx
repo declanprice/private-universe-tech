@@ -15,7 +15,9 @@ export const AppLayout = (props: {
   const router = useRouter();
   const [isNavBarOpen, setIsNavBarOpen] = useState<boolean>(false);
 
-  // normally I would extract app guarding logic into a route guard / middleware.
+  // normally I would extract app guarding logic into a route guard / middleware, however
+  // a bug using auth() in middleware is preventing it.
+
   if (session.status === "loading") {
     return <Skeleton width={"100vw"} height={"100vh"} />;
   }
