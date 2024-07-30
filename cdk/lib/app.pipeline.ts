@@ -102,7 +102,7 @@ class CodeDeployStep extends Step implements ICodePipelineActionFactory {
             ),
           ],
         }),
-        input: new Artifact("ShellStep____app"),
+        input: new Artifact("ShellStep__app"),
         deploymentGroup:
           ServerDeploymentGroup.fromServerDeploymentGroupAttributes(
             this.scope,
