@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import {
   InstanceTagSet,
   ServerApplication,
+  ServerDeploymentConfig,
   ServerDeploymentGroup,
 } from "aws-cdk-lib/aws-codedeploy";
 import {
@@ -30,6 +31,11 @@ export class DeploymentResources extends Construct {
       "PrivateUniverseServerDeploymentGroup",
       {
         application: application,
+        deploymentConfig: ServerDeploymentConfig.fromServerDeploymentConfigName(
+          this,
+          "DeploymentConfig",
+          "CodeDeployDefault.AllAtOnce",
+        ),
         deploymentGroupName: "PrivateUniverseServerDeploymentGroup",
         ec2InstanceTags: new InstanceTagSet({ project: ["PrivateUniverse"] }),
         role: new Role(this, "PrivateUniverseServerDeploymentRole", {

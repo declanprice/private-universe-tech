@@ -95,10 +95,8 @@ class CodeDeployStep extends Step implements ICodePipelineActionFactory {
           roleName: "PrivateUniverseCodeDeployRole",
           assumedBy: new AccountPrincipal(Stack.of(this.scope).account),
           managedPolicies: [
-            ManagedPolicy.fromManagedPolicyArn(
-              this.scope,
-              "CodeDeployerAccess",
-              "arn:aws:iam::aws:policy/AWSCodeDeployDeployerAccess",
+            ManagedPolicy.fromAwsManagedPolicyName(
+              "AWSCodeDeployDeployerAccess",
             ),
           ],
         }),
