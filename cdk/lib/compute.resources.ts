@@ -83,7 +83,7 @@ export class ComputeResources extends Construct {
     );
     userData.addCommands("sudo chmod +x ./install");
     userData.addCommands("sudo ./install auto");
-    userData.addCommands("sudo systemctl start codedeploy-agent");
+    userData.addCommands("systemctl start codedeploy-agent");
 
     const instance = new Instance(this, "PrivateUniverseInstance", {
       instanceName: "PrivateUniverseInstance",
