@@ -47,9 +47,11 @@ export class ComputeResources extends Construct {
     const instanceRole = new Role(this, "PrivateUniverseInstanceRole", {
       roleName: "PrivateUniverseInstanceRole",
       assumedBy: new AccountPrincipal(Stack.of(this).account),
-      // managedPolicies: [
-      //   ManagedPolicy.fromAwsManagedPolicyName("AmazonEC2RoleforAWSCodeDeploy"),
-      // ],
+      managedPolicies: [
+        ManagedPolicy.fromAwsManagedPolicyName(
+          "service-role/AmazonEC2RoleforAWSCodeDeploy",
+        ),
+      ],
       inlinePolicies: {
         policy: new PolicyDocument({
           statements: [
