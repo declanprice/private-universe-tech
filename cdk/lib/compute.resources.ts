@@ -69,16 +69,16 @@ export class ComputeResources extends Construct {
     });
 
     const userData = UserData.forLinux();
-    userData.addCommands("sudo yum update");
-    userData.addCommands("sudo yum install ruby");
-    userData.addCommands("sudo yum install wget");
+    userData.addCommands("sudo yum -y update");
+    userData.addCommands("sudo yum -y install ruby");
+    userData.addCommands("sudo yum -y install wget");
     userData.addCommands("sudo yum install nodejs -y");
-    userData.addCommands("cd /home/ec2-user");
     userData.addCommands(
       "wget https://aws-codedeploy-us-east-2.s3.us-east-2.amazonaws.com/latest/install",
     );
-    userData.addCommands("chmod +x ./install");
+    userData.addCommands("sudo chmod +x ./install");
     userData.addCommands("sudo ./install auto");
+    userData.addCommands("sudo systemctl start codedeploy-agent\n");
 
     const instance = new Instance(this, "PrivateUniverseInstance", {
       instanceName: "PrivateUniverseInstance",
