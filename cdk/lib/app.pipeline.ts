@@ -48,7 +48,7 @@ export class AppPipeline extends Stack {
       ],
     });
 
-    shell.addOutputDirectory("../app");
+    shell.addOutputDirectory("app");
 
     const pipeline = new CodePipeline(this, "CodePipeline", {
       synth: shell,
