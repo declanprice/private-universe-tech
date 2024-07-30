@@ -68,6 +68,18 @@ export class ComputeResources extends Construct {
       },
     });
 
+    const userData = UserData.forLinux();
+    userData.addCommands("sudo yum update");
+    userData.addCommands("sudo yum install ruby");
+    userData.addCommands("sudo yum install wget");
+    userData.addCommands("sudo yum install nodejs -y");
+    userData.addCommands("cd /home/ec2-user");
+    userData.addCommands(
+      "wget https://aws-codedeploy-ap-southeast-2.s3.us-east-2.amazonaws.com/latest/install",
+    );
+    userData.addCommands("chmod +x ./install");
+    userData.addCommands("sudo ./install auto");
+
     const instance = new Instance(this, "PrivateUniverseInstance", {
       instanceName: "PrivateUniverseInstance",
       vpc: defaultVpc,
@@ -76,9 +88,7 @@ export class ComputeResources extends Construct {
       instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MICRO),
       machineImage: MachineImage.latestAmazonLinux2023(),
       ssmSessionPermissions: true,
-      userData: UserData.forLinux({
-        shebang: "sudo yum install nodejs -y",
-      }),
+      userData: userData,
       associatePublicIpAddress: true,
       userDataCausesReplacement: true,
     });

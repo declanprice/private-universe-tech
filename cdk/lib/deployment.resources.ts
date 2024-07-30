@@ -24,7 +24,6 @@ export class DeploymentResources extends Construct {
         application: application,
         deploymentGroupName: "PrivateUniverseServerDeploymentGroup",
         ec2InstanceTags: new InstanceTagSet({ project: ["PrivateUniverse"] }),
-        installAgent: true,
       },
     );
   }
