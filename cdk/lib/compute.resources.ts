@@ -3,6 +3,7 @@ import { Construct } from "constructs";
 import {
   AccountPrincipal,
   Effect,
+  ManagedPolicy,
   PolicyDocument,
   PolicyStatement,
   Role,
@@ -47,8 +48,7 @@ export class ComputeResources extends Construct {
       roleName: "PrivateUniverseInstanceRole",
       assumedBy: new AccountPrincipal(Stack.of(this).account),
       // managedPolicies: [
-      // ManagedPolicy.fromAwsManagedPolicyName("AmazonEC2RoleforAWSCodeDeploy"),
-      // ManagedPolicy.fromAwsManagedPolicyName("AmazonEC2RoleforSSM"),
+      //   ManagedPolicy.fromAwsManagedPolicyName("AmazonEC2RoleforAWSCodeDeploy"),
       // ],
       inlinePolicies: {
         policy: new PolicyDocument({
