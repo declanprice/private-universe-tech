@@ -75,7 +75,7 @@ export class ComputeResources extends Construct {
     userData.addCommands("sudo yum install nodejs -y");
     userData.addCommands("cd /home/ec2-user");
     userData.addCommands(
-      "wget https://aws-codedeploy-ap-southeast-2.s3.us-east-2.amazonaws.com/latest/install",
+      "wget https://aws-codedeploy-us-east-2.s3.us-east-2.amazonaws.com/latest/install",
     );
     userData.addCommands("chmod +x ./install");
     userData.addCommands("sudo ./install auto");
