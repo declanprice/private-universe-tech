@@ -1,5 +1,5 @@
 export type Environment = {
-    hostUrl: string;
-    databaseParamName: string;
-    authSecretParamName: string;
-}
+  databaseParamName: string;
+  authSecretParamName: string;
+  authUrlParamName: string;
+};

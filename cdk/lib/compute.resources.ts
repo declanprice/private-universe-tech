@@ -9,6 +9,7 @@ import {
   PolicyStatement,
   Role,
 } from "aws-cdk-lib/aws-iam";
+import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import {
   Instance,
   InstanceClass,
@@ -22,6 +23,7 @@ import {
   Vpc,
 } from "aws-cdk-lib/aws-ec2";
 import { Environment } from "./environment";
+import { Parameter } from "aws-cdk-lib/aws-appconfig";
 
 type ComputeResourcesProps = {
   environment: Environment;
@@ -87,13 +89,6 @@ export class ComputeResources extends Construct {
     userData.addCommands("chmod +x ./install");
     userData.addCommands("./install auto");
     userData.addCommands("systemctl start codedeploy-agent");
-    userData.addCommands(`export NEXTAUTH_URL=${props.environment.hostUrl}`);
-    userData.addCommands(
-      `export NEXTAUTH_SECRET_PARAM=${props.environment.authSecretParamName}`,
-    );
-    userData.addCommands(
-      `export DATABASE_URL_PARAM=${props.environment.databaseParamName}`,
-    );
 
     const instance = new Instance(this, "PrivateUniverseInstance", {
       instanceName: "PrivateUniverseInstance",
@@ -106,6 +101,11 @@ export class ComputeResources extends Construct {
       userData: userData,
       userDataCausesReplacement: true,
       associatePublicIpAddress: true,
+    });
+
+    new StringParameter(this, "PrivateUniverseAuthUrl", {
+      parameterName: props.environment.authSecretParamName,
+      stringValue: `${instance.instancePublicDnsName}:3000`,
     });
 
     Tags.of(instance).add("deployment", "PrivateUniverse");

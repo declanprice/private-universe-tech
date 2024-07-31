@@ -71,8 +71,8 @@
     "githubConnectionArn": "arn:aws:codestar-connections:eu-west-1:518424097895:connection/3df6dfff-abc3-4b5a-a19c-148a98aea66c",
     "environments": {
       "dev": {
-        "hostUrl": "http://localhost:3000",
         "databaseParamName": "/private-universe-tech/database/connection-string",
+        "authUrlParamName": "/private-universe-tech/auth/url",
         "authSecretParamName": "/private-universe-tech/auth/secret"
       }
     }
