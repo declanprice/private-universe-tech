@@ -76,11 +76,11 @@ export class ComputeResources extends Construct {
     });
 
     const userData = UserData.forLinux();
-    userData.addCommands("sudo");
     userData.addCommands("yum -y update");
     userData.addCommands("yum -y install ruby");
     userData.addCommands("yum -y install wget");
     userData.addCommands("yum install nodejs -y");
+    userData.addCommands("npm i -g pm2");
     userData.addCommands(
       "wget https://aws-codedeploy-ap-southeast-2.s3-ap-southeast-2.amazonaws.com/latest/install",
     );

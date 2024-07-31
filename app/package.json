@@ -5,10 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "npx next start",
-    "lint": "next lint",
-    "start:prod": "npx pm2 start npm -- start",
-    "stop:prod": "npx pm2 stop all"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.1",
@@ -37,7 +35,6 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
-    "pm2": "^5.4.2",
     "prettier": "^3.3.3",
     "typescript": "^5"
   }

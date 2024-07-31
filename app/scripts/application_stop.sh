@@ -2,6 +2,6 @@ echo "stopping application"
 
 cd /var/app
 
-npm run stop:prod
+npx pm2 stop all
 
 echo "application stopped"
