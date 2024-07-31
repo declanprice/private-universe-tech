@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "./node_modules/.bin/next start",
+    "start": "npx next start",
     "lint": "next lint",
-    "start:prod": "./node_modules/.bin/pm2 start npm -- start",
-    "stop:prod": "./node_modules/.bin/pm2 stop all"
+    "start:prod": "npx pm2 start npm -- start",
+    "stop:prod": "npx pm2 stop all"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.1",
