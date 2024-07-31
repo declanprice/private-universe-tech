@@ -8,7 +8,7 @@
     "start": "./node_modules/.bin/next start",
     "lint": "next lint",
     "start:prod": "./node_modules/.bin/pm2 start npm -- start",
-    "stop:prod": "pm2 stop all"
+    "stop:prod": "./node_modules/.bin/pm2 stop all"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.1",
