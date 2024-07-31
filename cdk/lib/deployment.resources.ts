@@ -38,7 +38,7 @@ export class DeploymentResources extends Construct {
         ),
         deploymentGroupName: "PrivateUniverseServerDeploymentGroup",
         ec2InstanceTags: new InstanceTagSet({
-          project: ["PrivateUniverseDeployment"],
+          deployment: ["PrivateUniverse"],
         }),
         role: new Role(this, "PrivateUniverseServerDeploymentRole", {
           roleName: "PrivateUniverseServerDeploymentRole",

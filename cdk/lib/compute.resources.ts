@@ -82,7 +82,7 @@ export class ComputeResources extends Construct {
     userData.addCommands("yum -y install wget");
     userData.addCommands("yum install nodejs -y");
     userData.addCommands(
-      "wget https://aws-codedeploy-us-east-2.s3.us-east-2.amazonaws.com/latest/install",
+      "wget https://aws-codedeploy-ap-southeast-2.s3-ap-southeast-2.amazonaws.com/latest/install",
     );
     userData.addCommands("chmod +x ./install");
     userData.addCommands("./install auto");
@@ -100,6 +100,6 @@ export class ComputeResources extends Construct {
       userDataCausesReplacement: true,
     });
 
-    Tags.of(instance).add("project", "PrivateUniverseDeployment");
+    Tags.of(instance).add("deployment", "PrivateUniverse");
   }
 }
