@@ -87,6 +87,13 @@ export class ComputeResources extends Construct {
     userData.addCommands("chmod +x ./install");
     userData.addCommands("./install auto");
     userData.addCommands("systemctl start codedeploy-agent");
+    userData.addCommands(`export NEXTAUTH_URL=${props.environment.hostUrl}`);
+    userData.addCommands(
+      `export NEXTAUTH_SECRET_PARAM=${props.environment.authSecretParamName}`,
+    );
+    userData.addCommands(
+      `export DATABASE_URL_PARAM=${props.environment.databaseParamName}`,
+    );
 
     const instance = new Instance(this, "PrivateUniverseInstance", {
       instanceName: "PrivateUniverseInstance",
