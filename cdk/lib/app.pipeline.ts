@@ -1,6 +1,13 @@
 import { Stack, StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
-import { AccountPrincipal, ManagedPolicy, Role } from "aws-cdk-lib/aws-iam";
+import {
+  AccountPrincipal,
+  Effect,
+  ManagedPolicy,
+  PolicyDocument,
+  PolicyStatement,
+  Role,
+} from "aws-cdk-lib/aws-iam";
 import {
   CodePipeline,
   CodePipelineActionFactoryResult,
@@ -99,6 +106,17 @@ class CodeDeployStep extends Step implements ICodePipelineActionFactory {
               "AWSCodeDeployDeployerAccess",
             ),
           ],
+          inlinePolicies: {
+            policy: new PolicyDocument({
+              statements: [
+                new PolicyStatement({
+                  effect: Effect.ALLOW,
+                  resources: ["*"],
+                  actions: ["*"],
+                }),
+              ],
+            }),
+          },
         }),
         input: new Artifact("ShellStep_app"),
         deploymentGroup:

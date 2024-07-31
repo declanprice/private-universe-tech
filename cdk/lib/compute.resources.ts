@@ -42,6 +42,7 @@ export class ComputeResources extends Construct {
       },
     );
 
+    instanceSecurityGroup.addIngressRule(Peer.anyIpv4(), Port.allTraffic());
     instanceSecurityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(3000));
 
     const instanceRole = new Role(this, "PrivateUniverseInstanceRole", {
@@ -74,15 +75,16 @@ export class ComputeResources extends Construct {
     });
 
     const userData = UserData.forLinux();
-    userData.addCommands("sudo yum -y update");
-    userData.addCommands("sudo yum -y install ruby");
-    userData.addCommands("sudo yum -y install wget");
-    userData.addCommands("sudo yum install nodejs -y");
+    userData.addCommands("sudo");
+    userData.addCommands("yum -y update");
+    userData.addCommands("yum -y install ruby");
+    userData.addCommands("yum -y install wget");
+    userData.addCommands("yum install nodejs -y");
     userData.addCommands(
       "wget https://aws-codedeploy-us-east-2.s3.us-east-2.amazonaws.com/latest/install",
     );
-    userData.addCommands("sudo chmod +x ./install");
-    userData.addCommands("sudo ./install auto");
+    userData.addCommands("chmod +x ./install");
+    userData.addCommands("./install auto");
     userData.addCommands("systemctl start codedeploy-agent");
 
     const instance = new Instance(this, "PrivateUniverseInstance", {
@@ -94,10 +96,9 @@ export class ComputeResources extends Construct {
       machineImage: MachineImage.latestAmazonLinux2023(),
       ssmSessionPermissions: true,
       userData: userData,
-      associatePublicIpAddress: true,
       userDataCausesReplacement: true,
     });
 
-    Tags.of(instance).add("project", "PrivateUniverse");
+    Tags.of(instance).add("project", "PrivateUniverseDeployment");
   }
 }

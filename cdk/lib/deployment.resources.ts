@@ -37,7 +37,9 @@ export class DeploymentResources extends Construct {
           "CodeDeployDefault.AllAtOnce",
         ),
         deploymentGroupName: "PrivateUniverseServerDeploymentGroup",
-        ec2InstanceTags: new InstanceTagSet({ project: ["PrivateUniverse"] }),
+        ec2InstanceTags: new InstanceTagSet({
+          project: ["PrivateUniverseDeployment"],
+        }),
         role: new Role(this, "PrivateUniverseServerDeploymentRole", {
           roleName: "PrivateUniverseServerDeploymentRole",
           assumedBy: new AnyPrincipal(),
