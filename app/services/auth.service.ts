@@ -1,6 +1,5 @@
 import { prisma } from "@/prisma";
 import { UserAlreadyExistsError } from "./errors/UserAlreadyExistsError";
-import { UserWithProfile } from "@/shared/types/profile";
 import { User } from "next-auth";
 
 export class AuthService {

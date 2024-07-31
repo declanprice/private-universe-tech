@@ -1,7 +1,3 @@
-import { UserProfile } from "@prisma/client";
-
-import { prisma } from "@/prisma";
-
 export class DogsService {
   async getAll() {
     return [];
