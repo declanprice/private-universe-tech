@@ -51,6 +51,7 @@ export class AppPipeline extends Stack {
         "npm run cdk synth -- --output ../cdk.out",
         "cd ..",
         "cd app",
+        "npx prisma generate",
         "npm run build",
       ],
     });
