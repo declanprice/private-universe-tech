@@ -98,6 +98,7 @@ export class ComputeResources extends Construct {
       ssmSessionPermissions: true,
       userData: userData,
       userDataCausesReplacement: true,
+      associatePublicIpAddress: true,
     });
 
     Tags.of(instance).add("deployment", "PrivateUniverse");
