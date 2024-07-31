@@ -63,6 +63,7 @@ export class ComputeResources extends Construct {
               effect: Effect.ALLOW,
               resources: [
                 `arn:aws:ssm:${Stack.of(this).region}:${Stack.of(this).account}:parameter${props.environment.authSecretParamName}`,
+                `arn:aws:ssm:${Stack.of(this).region}:${Stack.of(this).account}:parameter${props.environment.authUrlParamName}`,
                 `arn:aws:ssm:${Stack.of(this).region}:${Stack.of(this).account}:parameter${props.environment.databaseParamName}`,
               ],
               actions: ["ssm:*"],
@@ -104,7 +105,7 @@ export class ComputeResources extends Construct {
     });
 
     new StringParameter(this, "PrivateUniverseAuthUrl", {
-      parameterName: props.environment.authSecretParamName,
+      parameterName: props.environment.authUrlParamName,
       stringValue: `${instance.instancePublicDnsName}:3000`,
     });
 
