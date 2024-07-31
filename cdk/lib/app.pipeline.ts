@@ -64,7 +64,7 @@ export class AppPipeline extends Stack {
 
     const environments = this.node.tryGetContext("environments");
 
-    // if you have a multi environment setup, simply add a new key to cdk.json 'environments' object.
+    // if you have a multi environment setup, simply add a new environment key to cdk.json 'environments' object.
 
     for (const name in environments) {
       const environment = environments[name] as Environment;

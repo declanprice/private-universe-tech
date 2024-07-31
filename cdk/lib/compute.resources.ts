@@ -2,6 +2,7 @@ import { Stack, Tags } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {
   AccountPrincipal,
+  AnyPrincipal,
   Effect,
   ManagedPolicy,
   PolicyDocument,
@@ -47,7 +48,7 @@ export class ComputeResources extends Construct {
 
     const instanceRole = new Role(this, "PrivateUniverseInstanceRole", {
       roleName: "PrivateUniverseInstanceRole",
-      assumedBy: new AccountPrincipal(Stack.of(this).account),
+      assumedBy: new AnyPrincipal(),
       managedPolicies: [
         ManagedPolicy.fromAwsManagedPolicyName(
           "service-role/AmazonEC2RoleforAWSCodeDeploy",
