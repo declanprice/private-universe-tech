@@ -1,7 +1,6 @@
 import { Stack, Tags } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {
-  AccountPrincipal,
   AnyPrincipal,
   Effect,
   ManagedPolicy,
@@ -23,7 +22,6 @@ import {
   Vpc,
 } from "aws-cdk-lib/aws-ec2";
 import { Environment } from "./environment";
-import { Parameter } from "aws-cdk-lib/aws-appconfig";
 
 type ComputeResourcesProps = {
   environment: Environment;
