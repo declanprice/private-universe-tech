@@ -1,5 +1,4 @@
 import { prisma } from "@/prisma";
-import { UserAlreadyExistsError } from "./errors/UserAlreadyExistsError";
 import { User } from "next-auth";
 import * as bcrypt from "bcrypt";
 
@@ -12,7 +11,7 @@ export class AuthService {
     });
 
     if (user) {
-      throw new UserAlreadyExistsError("user already exists");
+      throw new Error("user already exists");
     }
 
     const hash = this.hashPassword(password);

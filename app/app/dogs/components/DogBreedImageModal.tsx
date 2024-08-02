@@ -18,7 +18,7 @@ export const DogBreedImageModal = (props: DogBreedImageModalProps) => {
   const { isOpen, onClose, breed } = props;
 
   const { data, isLoading, error } = useSWR<string>(
-    `/api/dogs/${breed}`,
+    isOpen ? `/api/dogs/${breed}` : null,
     (url: string) => fetch(url).then((r) => r.json()),
   );
 
@@ -29,8 +29,6 @@ export const DogBreedImageModal = (props: DogBreedImageModalProps) => {
 
     return <Image src={data} alt={""} />;
   };
-
-  if (!isOpen) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"2xl"}>

@@ -21,12 +21,14 @@ export const SignInForm = () => {
 
   const onSignIn = async (data: any) => {
     try {
-      await signIn("credentials", {
+      const response = await signIn("credentials", {
         email: data.email,
         password: data.password,
         callbackUrl: "/dogs",
-        redirect: false,
+        redirect: true,
       });
+
+      console.log(response);
     } catch (error) {
       toast({
         title: "Failed to sign in.",
