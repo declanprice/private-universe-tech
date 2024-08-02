@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
     return Response.json({ message: "ok" });
   } catch (error) {
     console.log(error);
-
     if (error instanceof UserAlreadyExistsError) {
       return Response.json({ message: error.message }, { status: 400 });
     }

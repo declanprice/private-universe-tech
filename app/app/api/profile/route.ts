@@ -1,43 +1,40 @@
 import { NextRequest } from "next/server";
 import profileService from "@/services/profile.service";
-import { auth } from "@/auth";
+import { protectedRequest } from "@/shared/auth/protected";
+import { AuthUser } from "@/shared/types/user";
 
-export async function POST(request: NextRequest) {
-  try {
-    const _auth = await auth();
-    const user = _auth?.user;
-    if (!user?.email) {
-      return Response.json({ message: "Unauthorized" }, { status: 401 });
+export const POST = async (request: NextRequest) =>
+  protectedRequest(request, async (body: any, user: AuthUser) => {
+    try {
+      const profile = await profileService.create(
+        user.email,
+        body.username,
+        body.jobTitle,
+      );
+      return Response.json({ profile });
+    } catch (error) {
+      console.log(error);
+      return Response.json(
+        { message: "Something went wrong." },
+        { status: 500 },
+      );
     }
-    const body = await request.json();
-    const profile = await profileService.create(
-      user.email,
-      body.username,
-      body.jobTitle,
-    );
-    return Response.json({ profile });
-  } catch (error) {
-    console.log(error);
-    return Response.json({ message: "Something went wrong." }, { status: 500 });
-  }
-}
+  });
 
-export async function PUT(req: NextRequest) {
-  try {
-    const _auth = await auth();
-    const user = _auth?.user;
-    if (!user?.email) {
-      return Response.json({ message: "Unauthorized" }, { status: 401 });
+export const PUT = async (request: NextRequest) =>
+  protectedRequest(request, async (body: any, user: AuthUser) => {
+    try {
+      const profile = await profileService.update(
+        user.email,
+        body.username,
+        body.jobTitle,
+      );
+      return Response.json({ profile });
+    } catch (error) {
+      console.log(error);
+      return Response.json(
+        { message: "Something went wrong." },
+        { status: 500 },
+      );
     }
-    const body = await req.json();
-    const profile = await profileService.update(
-      user.email,
-      body.username,
-      body.jobTitle,
-    );
-    return Response.json({ profile });
-  } catch (error) {
-    console.log(error);
-    return Response.json({ message: "Something went wrong." }, { status: 500 });
-  }
-}
+  });

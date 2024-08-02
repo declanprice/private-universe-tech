@@ -1,10 +1,9 @@
 import { prisma } from "@/prisma";
 import { UserAlreadyExistsError } from "./errors/UserAlreadyExistsError";
 import { User } from "next-auth";
+import * as bcrypt from "bcrypt";
 
 export class AuthService {
-  private SECRET = process.env.NEXTAUTH_SECRET;
-
   async signUp(email: string, password: string) {
     const user = await prisma.user.findFirst({
       where: {
@@ -16,7 +15,7 @@ export class AuthService {
       throw new UserAlreadyExistsError("user already exists");
     }
 
-    const hash = this.encryptPassword(password);
+    const hash = this.hashPassword(password);
 
     await prisma.user.create({
       data: {
@@ -27,22 +26,34 @@ export class AuthService {
     });
   }
 
-  async signIn(credentials: any): Promise<User> {
+  async signIn(credentials: {
+    email: string;
+    password: string;
+  }): Promise<User> {
     console.log(credentials);
 
-    return prisma.user.findUniqueOrThrow({
+    const user = await prisma.user.findUniqueOrThrow({
       where: {
         email: credentials.email,
       },
     });
+
+    const isValidPassword = this.comparePassword(
+      credentials.password,
+      user.hash,
+    );
+
+    if (!isValidPassword) throw new Error("Invalid credentials");
+
+    return user;
   }
 
-  private encryptPassword(password: string): string {
-    return password;
+  private hashPassword(password: string): string {
+    return bcrypt.hashSync(password, 12);
   }
 
-  decryptPassword(hash: string) {
-    return hash;
+  comparePassword(password: string, hashedPassword: string): boolean {
+    return bcrypt.compareSync(password, hashedPassword);
   }
 }
 

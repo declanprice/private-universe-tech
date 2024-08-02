@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_LOCAL_URL")
 }
 
 generator client {
@@ -10,7 +10,7 @@ generator client {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  hash          String?
+  hash          String
   email         String    @unique
   emailVerified DateTime? @map("email_verified")
   image         String?

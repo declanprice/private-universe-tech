@@ -25,7 +25,7 @@ export const SignInForm = () => {
         email: data.email,
         password: data.password,
         callbackUrl: "/dogs",
-        redirect: true,
+        redirect: false,
       });
     } catch (error) {
       toast({
