@@ -4,9 +4,11 @@ cd /var/app
 
 rm .env
 
-echo NEXTAUTH_URL=$(aws ssm get-parameter --name /private-universe-tech/auth/url --region ap-southeast-2 --query "Parameter.Value" --with-decryption) >> .env
-echo NEXTAUTH_SECRET=$(aws ssm get-parameter --name /private-universe-tech/auth/secret --region ap-southeast-2 --query "Parameter.Value" --with-decryption) >> .env
-echo DATABASE_URL=$(aws ssm get-parameter --name /private-universe-tech/database/connection-string --region ap-southeast-2 --query "Parameter.Value" --with-decryption) >> .env
+source /etc/environment
+
+echo NEXTAUTH_URL=$(aws ssm get-parameter --name $AUTH_URL_PARAM_NAME --region ap-southeast-2 --query "Parameter.Value" --with-decryption) >> .env
+echo NEXTAUTH_SECRET=$(aws ssm get-parameter --name $AUTH_SECRET_PARAM_NAME --region ap-southeast-2 --query "Parameter.Value" --with-decryption) >> .env
+echo DATABASE_URL=$(aws ssm get-parameter --name $DATABASE_URL_PARAM_NAME --region ap-southeast-2 --query "Parameter.Value" --with-decryption) >> .env
 
 npx prisma generate
 
