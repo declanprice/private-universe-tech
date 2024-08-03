@@ -1,10 +1,47 @@
 ### Insights into technical choices made when completing tech test.
 
+The pipeline and infrastructure cloudformation stack is set up so that at any given time the stack can be torn down and up again without
+any manual work required on the ec2 instance to get the app working.
 
-### App
+There are no hard coded values in the app / cloudformation it's all configured from ssm parameter store secret values based on the
+deployment environment (parameter store param names are configured in cdk.json to allow for a multi environment setup)
+
+## App
+
+- App is split up into top level "modules" (auth, dogs, profile, profile-setup)  These modules can contain module specific components, but never shared across modules.
 
 
-### Infrastructure
+- Main modules (profile, dogs) uses a shared app layout component which is protected by a guard that ensures user is logged in. (I opted to use client side code to handle this but understand middleware is a valid option also) 
 
 
-### Pipeline
+- Shared folder is used by both client/server code it has things like types, validation schemas & components that can used in multiple places. 
+
+
+- NextAuth, i understand MagicLinks and OpenID auth is favoured for security but thought it would be fun to implement old school email/password solution instead.
+
+
+- Profile setup modal, i opted to implement a multistep form within a single component which validates fields at each step as a way to demonstrate an understanding of how to implement slightly more complicated form use cases.
+
+## Pipeline & Infrastructure
+
+All secret parameters are pre-configured in SSM Parameter Store.
+
+AWS Codepipeline Steps:
+
+1. Triggers from source repository main branch changes.
+2. Builds the NextJs app.
+3. Deploys the infrastructure stack (ec2, security rules, iam roles & code deploy resources).
+4. Uses code deploy to deploy the build assets to the deployed ec2 instance.
+
+As part of the infrastructure stack the duck dns domain is configured to point to the ec2 instance public ip
+and certibot is used to generate an ssl certificates for the domain automatically.
+
+
+## Worthy Mentions
+
+- No prior experience building or deploying NextJs.
+- No prior experience with manual SSL configuration with LetsEncrypt.
+- I handled some error / edge cases but not all as i don't think it is necessary for tech test.
+- The tech test completed whilst on the move travelling to and from the UK. I will take this time to blame jetlag for any potential oversights :)
+
+Thanks for reading.

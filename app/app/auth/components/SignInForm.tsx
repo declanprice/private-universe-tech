@@ -1,71 +1,63 @@
-"use client";
+'use client'
 
-import { Button, Flex, useToast } from "@chakra-ui/react";
-import { FormTextInput } from "@/shared/components/form/FormTextInput";
-import { useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { valibotResolver } from "@hookform/resolvers/valibot";
-import { signInSchema } from "@/shared/schemas/sign-in.schema";
+import { Button, Flex, useToast } from '@chakra-ui/react'
+import { FormTextInput } from '@/shared/components/form/FormTextInput'
+import { useForm } from 'react-hook-form'
+import { signIn } from 'next-auth/react'
+import Link from 'next/link'
+import { valibotResolver } from '@hookform/resolvers/valibot'
+import { signInSchema } from '@/shared/schemas/sign-in.schema'
+import { useRouter } from 'next/navigation'
 
 export const SignInForm = () => {
-  const toast = useToast();
+    const router = useRouter()
+    const toast = useToast()
 
-  const form = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    resolver: valibotResolver(signInSchema),
-  });
+    const form = useForm({
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+        resolver: valibotResolver(signInSchema),
+    })
 
-  const onSignIn = async (data: any) => {
-    try {
-      const response = await signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        callbackUrl: "/dogs",
-        redirect: true,
-      });
+    const onSignIn = async (data: any) => {
+        try {
+            const response = await signIn('credentials', {
+                email: data.email,
+                password: data.password,
+                callbackUrl: '/dogs',
+                redirect: false,
+            })
 
-      console.log(response);
-    } catch (error) {
-      toast({
-        title: "Failed to sign in.",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
+            if (response?.error != null) {
+                throw new Error('invalid session')
+            }
+
+            router.push('/dogs')
+        } catch (error) {
+            toast({
+                title: 'Failed to sign in.',
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            })
+        }
     }
-  };
 
-  return (
-    <form onSubmit={form.handleSubmit(onSignIn)}>
-      <Flex direction={"column"} width={"400px"} gap={2}>
-        <FormTextInput
-          isRequired={true}
-          placeholder={"Email"}
-          name={"email"}
-          control={form.control}
-        />
+    return (
+        <form onSubmit={form.handleSubmit(onSignIn)}>
+            <Flex direction={'column'} width={'400px'} gap={2}>
+                <FormTextInput isRequired={true} placeholder={'Email'} name={'email'} control={form.control} />
 
-        <FormTextInput
-          isRequired={true}
-          placeholder={"Password"}
-          name={"password"}
-          control={form.control}
-        />
+                <FormTextInput isRequired={true} placeholder={'Password'} name={'password'} control={form.control} />
 
-        <Button
-          ml={"auto"}
-          type={"submit"}
-          isLoading={form.formState.isSubmitting}
-        >
-          Sign In
-        </Button>
+                <Button ml={'auto'} type={'submit'} isLoading={form.formState.isSubmitting}>
+                    Sign In
+                </Button>
 
-        <Link href={"/auth/sign-up"}>{`I don't have an account yet.`}</Link>
-      </Flex>
-    </form>
-  );
-};
+                <Link href={'/auth/sign-up'}>{`I don't have an account yet.`}</Link>
+            </Flex>
+        </form>
+    )
+}
