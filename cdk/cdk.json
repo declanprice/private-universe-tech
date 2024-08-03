@@ -76,6 +76,7 @@
         "authSecretParamName": "/private-universe-tech/auth/secret",
         "dnsTokenParamName": "/private-universe-tech/dns/token",
         "domainName": "puppypictionary",
+        "fullDomainName": "puppypictionary.duckdns.org",
         "domainEmail": "declanprice1@gmail.com"
       }
     }

@@ -5,4 +5,5 @@ export type Environment = {
   dnsTokenParamName: string;
   domainName: string;
   domainEmail: string;
+  fullDomainName: string;
 };
