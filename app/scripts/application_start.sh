@@ -12,6 +12,7 @@ npx prisma generate
 
 mv nginx.conf /etc/nginx
 
+systemctl restart nginx
+
 npx pm2 start "./node_modules/next/dist/bin/next start"
 
-systemctl restart nginx
