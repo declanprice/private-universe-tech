@@ -10,4 +10,8 @@ echo DATABASE_URL=$(aws ssm get-parameter --name /private-universe-tech/database
 
 npx prisma generate
 
+mv nginx.conf /etc/nginx
+
 npx pm2 start "./node_modules/next/dist/bin/next start"
+
+systemctl restart nginx
