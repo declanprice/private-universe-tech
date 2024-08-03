@@ -91,13 +91,13 @@ export class ComputeResources extends Construct {
     userData.addCommands("./install auto");
     userData.addCommands("systemctl start codedeploy-agent");
     userData.addCommands(
-      `curl "https://www.duckdns.org/update?domains=${environment.domainName}&token=$((aws ssm get-parameter --name ${environment.dnsTokenParamName} --region ${Stack.of(this).account} --query "Parameter.Value" --with-decryption)|jq -r)&ip=$(curl http://checkip.amazonaws.com)"`,
+      `curl "https://www.duckdns.org/update?domains=${environment.domainName}&token=$((aws ssm get-parameter --name ${environment.dnsTokenParamName} --region ${Stack.of(this).region} --query "Parameter.Value" --with-decryption)|jq -r)&ip=$(curl http://checkip.amazonaws.com)"`,
     );
     userData.addCommands("yum install certbot -y");
     userData.addCommands("yum install nginx -y");
     userData.addCommands("yum install python3-certbot-nginx -y");
     userData.addCommands(
-      `certbot certonly --nginx -d ${environment.domainName}.duckdns.org -m ${environment.domainEmail} --agree-tos --non-interactive`,
+      `certbot certonly --nginx -d ${environment.domainName}.duckdns.org -m ${environment.domainEmail} --agree-tos -n --test-cert`,
     );
     userData.addCommands("fuser -k 80/tcp");
     userData.addCommands("fuser -k 443/tcp");
