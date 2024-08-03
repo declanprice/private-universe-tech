@@ -15,7 +15,8 @@ export const { handlers, auth } = NextAuth({
         email: {},
         password: {},
       },
-      authorize: (credentials) => authService.signIn(credentials),
+      authorize: (credentials) =>
+        authService.signIn(credentials as { email: string; password: string }),
     }),
   ],
   callbacks: {
