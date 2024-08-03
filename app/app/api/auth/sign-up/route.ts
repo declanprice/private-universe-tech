@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server";
 import authService from "@/services/auth.service";
-import { UserAlreadyExistsError } from "@/services/errors/UserAlreadyExistsError";
 
 export async function POST(request: NextRequest) {
   try {
