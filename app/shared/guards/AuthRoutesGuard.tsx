@@ -5,7 +5,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export const UnauthGuard = (props: {
+export const AuthRoutesGuard = (props: {
   children: React.ReactNode;
 }): React.ReactNode => {
   const session = useSession();

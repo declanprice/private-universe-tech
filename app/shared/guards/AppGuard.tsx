@@ -6,14 +6,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { UserWithOptionalProfile } from "@/shared/types/profile";
 
-export const AuthGuard = (props: {
+export const AppGuard = (props: {
   children: React.ReactNode;
 }): React.ReactNode => {
   const session = useSession();
   const router = useRouter();
-
-  // normally I would extract app guarding logic into a route guard / middleware, however
-  // a bug using auth() in middleware is preventing it.
 
   if (session.status === "loading") {
     return <Skeleton width={"100vw"} height={"100vh"} />;

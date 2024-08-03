@@ -1,11 +1,11 @@
 import { Flex, Heading } from "@chakra-ui/react";
 
-import { UnauthGuard } from "@/shared/guards/UnauthGuard";
+import { AuthRoutesGuard } from "@/shared/guards/AuthRoutesGuard";
 import { SignUpForm } from "@/app/auth/components/SignUpForm";
 
 export default function SignUpPage() {
   return (
-    <UnauthGuard>
+    <AuthRoutesGuard>
       <main>
         <Flex
           height={"100vh"}
@@ -21,6 +21,6 @@ export default function SignUpPage() {
           <SignUpForm />
         </Flex>
       </main>
-    </UnauthGuard>
+    </AuthRoutesGuard>
   );
 }
