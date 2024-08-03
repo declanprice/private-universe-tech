@@ -4,4 +4,5 @@ export type Environment = {
   authUrlParamName: string;
   dnsTokenParamName: string;
   domainName: string;
+  domainEmail: string;
 };
