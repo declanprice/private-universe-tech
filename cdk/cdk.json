@@ -73,7 +73,9 @@
       "dev": {
         "databaseParamName": "/private-universe-tech/database/connection-string",
         "authUrlParamName": "/private-universe-tech/auth/url",
-        "authSecretParamName": "/private-universe-tech/auth/secret"
+        "authSecretParamName": "/private-universe-tech/auth/secret",
+        "dnsTokenParamName": "/private-universe-tech/dns/token",
+        "domainName": "puppypictionary"
       }
     }
   }

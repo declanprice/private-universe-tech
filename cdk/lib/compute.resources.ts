@@ -88,6 +88,15 @@ export class ComputeResources extends Construct {
     userData.addCommands("chmod +x ./install");
     userData.addCommands("./install auto");
     userData.addCommands("systemctl start codedeploy-agent");
+    userData.addCommands(
+      `curl "https://www.duckdns.org/update?domains=${props.environment.domainName}&token=$((aws ssm get-parameter --name ${props.environment.dnsTokenParamName} --region ap-southeast-2 --query "Parameter.Value" --with-decryption)|jq -r)&ip=$(curl http://checkip.amazonaws.com)"`,
+    );
+    userData.addCommands("sudo yum install certbot -y");
+    userData.addCommands("sudo yum install nginx -y");
+    userData.addCommands("sudo yum install python3-certbot-nginx -y");
+    userData.addCommands(
+      `sudo certbot certonly --nginx -d ${props.environment.domainName}.duckdns.org -m declanprice1@gmail.com --agree-tos --non-interactive`,
+    );
 
     const instance = new Instance(this, "PrivateUniverseInstance", {
       instanceName: "PrivateUniverseInstance",
