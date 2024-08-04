@@ -14,7 +14,7 @@ deployment environment (parameter store param names are configured in cdk.json t
 - Main modules (profile, dogs) uses a shared app layout component which is protected by a guard that ensures user is logged in. (I opted to use client side code to handle this but understand middleware is a valid option also) 
 
 
-- Shared folder is used by both client/server code it has things like types, validation schemas & components that can used in multiple places. 
+- Shared folder is used by both client/server code. It has things like types, validation schemas & components that are used in multiple places. 
 
 
 - NextAuth, i understand MagicLinks and OpenID auth is favoured for security but thought it would be fun to implement old school email/password solution instead.
@@ -26,22 +26,23 @@ deployment environment (parameter store param names are configured in cdk.json t
 
 All secret parameters are pre-configured in SSM Parameter Store.
 
+All iam permissions are lease privilege access.
+
 AWS Codepipeline Steps:
 
-1. Triggers from source repository main branch changes.
-2. Builds the NextJs app.
-3. Deploys the infrastructure stack (ec2, security rules, iam roles & code deploy resources).
-4. Uses code deploy to deploy the build assets to the deployed ec2 instance.
+1. Pipeline triggers from changes to main branch in source repository.
+2. Codebuild builds the Next.js app.
+3. Cloudformation deploys the infrastructure stack (ec2, security rules, iam roles & code deploy resources).
+4. Code deploy deploys the build assets to the deployed ec2 instance.
 
-As part of the infrastructure stack the duck dns domain is configured to point to the ec2 instance public ip
+As part of the ec2 instance user data set up the duck dns domain is configured to point to the instance public ip
 and certibot is used to generate an ssl certificates for the domain automatically.
-
 
 ## Worthy Mentions
 
-- No prior experience building or deploying NextJs.
+- No prior experience building or deploying Next.js.
 - No prior experience with manual SSL configuration with LetsEncrypt.
 - I handled some error / edge cases but not all as i don't think it is necessary for tech test.
-- The tech test completed whilst on the move travelling to and from the UK. I will take this time to blame jetlag for any potential oversights :)
+- The tech test was completed whilst on the move travelling to and from the UK. I will take this time to blame jetlag for any potential oversights :)
 
 Thanks for reading.
