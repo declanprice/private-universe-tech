@@ -34,8 +34,9 @@ export class ComputeResources extends Construct {
             allowAllOutbound: true,
         })
 
-        instanceSecurityGroup.addIngressRule(Peer.anyIpv4(), Port.allTraffic())
+        instanceSecurityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(443))
         instanceSecurityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(3000))
+        instanceSecurityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(80))
 
         const instanceRole = new Role(this, 'PrivateUniverseInstanceRole', {
             roleName: 'PrivateUniverseInstanceRole',
