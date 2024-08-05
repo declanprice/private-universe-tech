@@ -101,7 +101,7 @@ export class ComputeResources extends Construct {
 
         new StringParameter(this, 'PrivateUniverseAuthUrl', {
             parameterName: props.environment.authUrlParamName,
-            stringValue: `http://${instance.instancePublicDnsName}:3000`,
+            stringValue: `https://${environment.fullDomainName}`,
         })
 
         Tags.of(instance).add('deployment', 'PrivateUniverse')
