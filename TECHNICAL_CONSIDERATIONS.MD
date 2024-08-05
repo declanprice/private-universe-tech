@@ -24,6 +24,9 @@ deployment environment (parameter store param names are configured in cdk.json t
 
 - Profile setup modal, i opted to implement a multistep form within a single component which validates fields at each step as a way to demonstrate an understanding of how to implement slightly more complicated form use cases.
 
+
+- I implement smart / dumb components where it makes sense but not everywhere.  Typically a page will act as the smart component with dumb child components but in many cases it makes sense to have multiple smarter child components when the pages start to grow.
+
 ## Pipeline & Infrastructure
 
 All secret parameters are pre-configured in SSM Parameter Store.
