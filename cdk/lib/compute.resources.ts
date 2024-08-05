@@ -76,9 +76,7 @@ export class ComputeResources extends Construct {
         userData.addCommands('yum install certbot -y')
         userData.addCommands('yum install nginx -y')
         userData.addCommands('yum install python3-certbot-nginx -y')
-        userData.addCommands(
-            `certbot certonly --nginx -d ${environment.fullDomainName} -m ${environment.domainEmail} --agree-tos -n --test-cert`
-        )
+        userData.addCommands(`certbot certonly --nginx -d ${environment.fullDomainName} -m ${environment.domainEmail} --agree-tos -n`)
         userData.addCommands('fuser -k 80/tcp')
         userData.addCommands('fuser -k 443/tcp')
         userData.addCommands('systemctl start nginx')
